@@ -3,7 +3,7 @@ FROM centos
 RUN yum -y -q --nogpgcheck update && yum -y -q clean all
 RUN yum -y -q --nogpgcheck install tar && yum -y -q clean all
 
-ENV KIBANA_VERSION=4.0.0
+ENV KIBANA_VERSION=4.0.1
 
 RUN mkdir -p /opt/kibana
 RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION-linux-x64.tar.gz \
