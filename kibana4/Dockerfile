@@ -10,6 +10,11 @@ RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERS
 
 ADD conf/kibana.yml /opt/kibana/config/kibana.yml
 
+RUN useradd -U -d /opt/kibana -s /usr/bin/bash kibana
+RUN chown -R kibana:kibana /opt/kibana
+
 EXPOSE 5601
+
+USER kibana
 
 CMD /opt/kibana/bin/kibana
