@@ -1,9 +1,8 @@
-FROM centos
+FROM centos:latest
 
-RUN yum -y -q --nogpgcheck update && yum -y -q clean all
-RUN yum -y -q --nogpgcheck install tar && yum -y -q clean all
+RUN yum -q -y --nogpgcheck install tar && yum -q -y clean all
 
-ENV KIBANA_VERSION=4.0.1
+ENV KIBANA_VERSION=4.0.2
 
 RUN mkdir -p /opt/kibana
 RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION-linux-x64.tar.gz \
