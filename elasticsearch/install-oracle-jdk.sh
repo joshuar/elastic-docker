@@ -95,6 +95,6 @@ alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000 \
              --slave /usr/share/man/man1/xjc.1 xjc.1 /usr/java/latest/man/man1/xjc.1
 alternatives --auto javac
 
-test -e /tmp/${rpmurl} && rm -f /tmp/${rpmurl}
+test -e /tmp/${rpmfile} && rm -f /tmp/${rpmfile}
 
 exit 0
