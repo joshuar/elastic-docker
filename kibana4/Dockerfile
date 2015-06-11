@@ -1,5 +1,7 @@
 FROM centos:latest
 
+MAINTAINER Joshua Rich "joshua.rich@gmail.com"
+
 RUN yum -q -y --nogpgcheck install tar && yum -q -y clean all
 
 ENV KIBANA_VERSION=4.1.0
@@ -13,8 +15,8 @@ RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERS
 RUN useradd -U -d /opt/kibana -s /usr/bin/bash kibana
 RUN chown -R kibana:kibana /opt/kibana
 
-EXPOSE 5601
-
 USER kibana
 
-CMD /opt/kibana/bin/kibana
+ENTRYPOINT ["/opt/kibana/bin/kibana"]
+
+EXPOSE ["5601/tcp"]

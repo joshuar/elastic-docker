@@ -1,12 +1,14 @@
 FROM centos:latest
 
+MAINTAINER Joshua Rich "joshua.rich@gmail.com"
+
 ENV ES_VERSION 1.6.0
 ENV ES_URL https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz
 
 RUN yum -q -y --nogpgcheck install tar && yum -q clean all
 
-COPY install-oracle-jdk.sh /
-RUN /install-oracle-jdk.sh && rm -f /install-oracle-jdk.sh
+COPY install-server-jre.sh /
+RUN bash /install-server-jre.sh && rm -f /install-server-jre.sh
 
 RUN curl -s -L -o - $ES_URL | tar -xz -C /opt \
     && ln -s /opt/elasticsearch-$ES_VERSION /opt/elasticsearch \
@@ -19,8 +21,8 @@ RUN useradd -U -d /opt/elasticsearch -s /usr/bin/bash elasticsearch
 RUN chown -R elasticsearch:elasticsearch /opt/elasticsearch-$ES_VERSION
 
 VOLUME ["/opt/elasticsearch/data","/opt/elasticsearch/config","/opt/elasticsearch/logs","/opt/elasticsearch/plugins"]
-EXPOSE 9200 9300
+EXPOSE ["9200/tcp","9300/tcp"]
 
 USER elasticsearch
 
-CMD /opt/elasticsearch/bin/elasticsearch
+ENTRYPOINT ["/opt/elasticsearch/bin/elasticsearch"]
