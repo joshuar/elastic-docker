@@ -1,6 +1,6 @@
 FROM centos:latest
 
-ENV ES_VERSION 1.5.2
+ENV ES_VERSION 1.6.0
 ENV ES_URL https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz
 
 RUN yum -q -y --nogpgcheck install tar && yum -q clean all
