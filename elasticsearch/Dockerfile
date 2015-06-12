@@ -21,7 +21,7 @@ RUN useradd -U -d /opt/elasticsearch -s /usr/bin/bash elasticsearch
 RUN chown -R elasticsearch:elasticsearch /opt/elasticsearch-$ES_VERSION
 
 VOLUME ["/opt/elasticsearch/data","/opt/elasticsearch/config","/opt/elasticsearch/logs","/opt/elasticsearch/plugins"]
-EXPOSE ["9200/tcp","9300/tcp"]
+EXPOSE "9200/tcp" "9300/tcp"
 
 USER elasticsearch
 
