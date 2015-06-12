@@ -5,6 +5,10 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
 
+# Set Ubuntu mirror server
+ENV MIRROR au.archive.ubuntu.com
+RUN sed -i -e "s|archive.ubuntu.com|$MIRROR|g" /etc/apt/sources.list
+
 # Update package lists
 RUN apt-get -y update
 
@@ -16,8 +20,9 @@ COPY install-server-jre.sh /
 RUN bash /install-server-jre.sh && rm -f /install-server-jre.sh
 
 # Install BubbleUPnP Server
-RUN apt-get -y install python-software-properties \
+RUN apt-get -y install software-properties-common \
     && add-apt-repository ppa:bubbleguuum/bubbleupnpserver \
+    && apt-get -y update \
     && apt-get -y install bubbleupnpserver
 
 COPY bubbleupnpserver /etc/default/bubbleupnpserver
@@ -27,8 +32,7 @@ RUN adduser --disabled-password --gecos "BubbleUPnP" bubbleupnp
 
 USER bubbleupnp
 
-# Start BubbleUPnP Server
-ENTRYPOINT ["start",  "bubbleupnpserver"]
+ENTRYPOINT [ "/usr/share/bubbleupnpserver/launch.sh", "-dataDir /home/bubbleupnp/.bubbleupnpserver", "-httpPort 58050", "-httpsPort 58051" ]
 
 # Expose the BubbleUPnP Server port
-EXPOSE ["58050/tcp","58051/tcp","1900/udp"]
+EXPOSE "58050/tcp" "58051/tcp" "1900/udp"
