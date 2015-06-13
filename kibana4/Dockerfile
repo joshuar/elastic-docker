@@ -19,4 +19,4 @@ USER kibana
 
 ENTRYPOINT ["/opt/kibana/bin/kibana"]
 
-EXPOSE ["5601/tcp"]
+EXPOSE "5601/tcp"
