@@ -25,12 +25,12 @@ RUN apt-get -y install software-properties-common \
     && apt-get -y update \
     && apt-get -y install bubbleupnpserver
 
-COPY bubbleupnpserver /etc/default/bubbleupnpserver
-
 # Create a user to run BubbleUPnP Server
 RUN adduser --disabled-password --gecos "BubbleUPnP" bubbleupnp
 
 USER bubbleupnp
+
+VOLUME [ "/home/bubbleupnp/.bubbleupnpserver" ]
 
 ENTRYPOINT [ "/usr/share/bubbleupnpserver/launch.sh", "-dataDir /home/bubbleupnp/.bubbleupnpserver", "-httpPort 58050", "-httpsPort 58051" ]
 
