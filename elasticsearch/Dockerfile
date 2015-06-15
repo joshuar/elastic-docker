@@ -14,6 +14,8 @@ RUN curl -s -L -o - $ES_URL | tar -xz -C /opt \
     && ln -s /opt/elasticsearch-$ES_VERSION /opt/elasticsearch \
     && mkdir /opt/elasticsearch/{data,logs,plugins}
 
+RUN yum -q -y erase tar
+
 COPY elasticsearch.yml /opt/elasticsearch/config/elasticsearch.yml
 COPY logging.yml /opt/elasticsearch/config/logging.yml
 
