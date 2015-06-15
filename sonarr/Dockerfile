@@ -1,6 +1,6 @@
-FROM ubuntu
+FROM ubuntu:latest
 
-MAINTAINER Joshua Rich <joshua.rich@gmail.com>
+MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -15,5 +15,7 @@ RUN groupadd sonarr
 RUN useradd -g sonarr -d /home/sonarr -m -s /bin/bash sonarr
 
 USER sonarr
-EXPOSE 8989
-CMD mono /opt/NzbDrone/NzbDrone.exe -nobrowser
+
+EXPOSE "8989/tcp"
+
+ENTRYPOINT [ "mono", "/opt/NzbDrone/NzbDrone.exe", "-nobrowser" ]
