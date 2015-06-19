@@ -2,7 +2,7 @@ FROM centos:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
-ENV LS_VERSION 1.5.0
+ENV LS_VERSION 1.5.1
 ENV LS_URL https://download.elastic.co/logstash/logstash/logstash-$LS_VERSION.tar.gz
 
 RUN yum -q -y --nogpgcheck install tar && yum -q clean all
