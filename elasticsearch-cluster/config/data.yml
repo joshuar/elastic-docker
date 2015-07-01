@@ -1,0 +1,5 @@
+cluster.name: joshuar_es
+
+node.master: false
+node.data: true
+node.client: false

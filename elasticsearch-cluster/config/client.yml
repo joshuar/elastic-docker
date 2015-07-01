@@ -1,0 +1,7 @@
+cluster.name: joshuar_es
+
+node.master: false
+node.data: false
+node.client: true
+
+http.cors.endabled: true
