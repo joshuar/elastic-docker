@@ -7,44 +7,54 @@ esc1:
     - ./config:/opt/elasticsearch/config
     - ./data:/opt/elasticsearch/data
     - ./logs:/opt/elasticsearch/logs
+    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/client.yml
+  links:
+    - esd1
+    - esd2
+    - esd3
+    - esm1
 esd1:
   image: joshuar/elasticsearch:1.6.0
-  ports:
-    - "9201:9200"
-    - "9301:9300"
+  expose:
+    - 9200
+    - 9300
   volumes:
     - ./config:/opt/elasticsearch/config
     - ./data:/opt/elasticsearch/data
     - ./logs:/opt/elasticsearch/logs
+    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esd2:
   image: joshuar/elasticsearch:1.6.0
-  ports:
-    - "9202:9200"
-    - "9302:9300"
+  expose:
+    - 9200
+    - 9300
   volumes:
     - ./config:/opt/elasticsearch/config
     - ./data:/opt/elasticsearch/data
     - ./logs:/opt/elasticsearch/logs
+    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esd3:
   image: joshuar/elasticsearch:1.6.0
-  ports:
-    - "9203:9200"
-    - "9303:9300"
+  expose:
+    - 9200
+    - 9300
   volumes:
     - ./config:/opt/elasticsearch/config
     - ./data:/opt/elasticsearch/data
     - ./logs:/opt/elasticsearch/logs
+    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esm1:
   image: joshuar/elasticsearch:1.6.0
-  ports:
-    - "10200:9200"
-    - "10300:9300"
+  expose:
+    - 9200
+    - 9300
   volumes:
     - ./config:/opt/elasticsearch/config
     - ./data:/opt/elasticsearch/data
     - ./logs:/opt/elasticsearch/logs
+    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/master.yml
