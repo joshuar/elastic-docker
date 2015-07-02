@@ -1,11 +1,12 @@
 ## Building
 
-For Dockerfiles that have symlinked shared scripts, you'll need to run
-`docker build` like the following:
+You can use the provided Makefile.  To build all images, just run
+`make all`.
 
-```
-tar -czh . | docker build -t some-tag:5.0.1 -
-```
+See the README files in each directory for manual building instructions.
 
-To overcome the limitation of Docker not being able to send symlinks
-as part of the build context.
+### Elastic Products
+
+Run `make elastic` to make Elasticsearch, Logstash and Kibana images,
+or run `make` with the individual targets `elasticsearch`, `logstash`
+or `kibana` to build them individually.
