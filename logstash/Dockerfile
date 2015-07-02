@@ -1,11 +1,11 @@
-FROM centos:latest
+FROM fedora:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
 ENV LS_VERSION 1.5.2
 ENV LS_URL https://download.elastic.co/logstash/logstash/logstash-$LS_VERSION.tar.gz
 
-RUN yum -q -y --nogpgcheck install tar && yum -q clean all
+RUN dnf -q -y --nogpgcheck install tar && dnf -q clean all
 
 COPY install-server-jre.sh /
 RUN bash /install-server-jre.sh && rm -f /install-server-jre.sh
