@@ -9,30 +9,29 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV MIRROR au.archive.ubuntu.com
 RUN sed -i -e "s|archive.ubuntu.com|$MIRROR|g" /etc/apt/sources.list
 
-# Update package lists
-RUN apt-get -y update
-
 # Install curl, needed to install JRE
-RUN apt-get -y install curl
+RUN apt-get -q -y update && apt-get -q -y install curl
 
 # Install Java Server JRE
 COPY install-server-jre.sh /
 RUN bash /install-server-jre.sh && rm -f /install-server-jre.sh
 
 # Install BubbleUPnP Server
-RUN apt-get -y install software-properties-common \
-    && add-apt-repository ppa:bubbleguuum/bubbleupnpserver \
-    && apt-get -y update \
-    && apt-get -y install bubbleupnpserver
+RUN apt-get -q -y install software-properties-common &&\
+    add-apt-repository ppa:bubbleguuum/bubbleupnpserver &&\
+    apt-get -q -y update &&\
+    apt-get -q -y install bubbleupnpserver &&\
+    apt-get -q -y purge software-properties-common curl &&\
+    apt-get -q -y clean all
 
 # Create a user to run BubbleUPnP Server
-RUN adduser --disabled-password --gecos "BubbleUPnP" bubbleupnp
+RUN adduser --home /home/bubbleupnp --disabled-password --gecos "BubbleUPnP" bubbleupnp
 
 USER bubbleupnp
 
-VOLUME [ "/home/bubbleupnp/.bubbleupnpserver" ]
+VOLUME [ "/home/bubbleupnp" ]
 
-ENTRYPOINT [ "/usr/share/bubbleupnpserver/launch.sh", "-dataDir /home/bubbleupnp/.bubbleupnpserver", "-httpPort 58050", "-httpsPort 58051" ]
+ENTRYPOINT [ "/usr/share/bubbleupnpserver/launch.sh", "-dataDir", "/home/bubbleupnp", "-httpPort", "58050", "-httpsPort", "58051", "-disableAddIptableRules" ]
 
 # Expose the BubbleUPnP Server port
 EXPOSE "58050/tcp" "58051/tcp" "1900/udp"
