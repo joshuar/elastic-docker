@@ -18,10 +18,10 @@ somewhere on the host:
 
 ```
 sudo docker run -d -p 9200:9200/tcp -p 9300:9300/tcp \
-  -v /var/lib/docker/es/data:/opt/elasticsearch/data
-  -v /var/lib/docker/es/config:/opt/elasticsearch/config
-  -v /var/lib/docker/es/logs:/opt/elasticsearch/logs
-  -v /var/lib/docker/es/plugins:/opt/elasticsearch/plugins
+  -v /var/lib/docker/es/data:/opt/elasticsearch/data \
+  -v /var/lib/docker/es/config:/opt/elasticsearch/config \
+  -v /var/lib/docker/es/logs:/opt/elasticsearch/logs \
+  -v /var/lib/docker/es/plugins:/opt/elasticsearch/plugins \
   joshuar/elasticsearch:x.x.x
 ```
 

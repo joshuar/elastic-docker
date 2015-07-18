@@ -1,5 +1,5 @@
 esc1:
-  image: joshuar/elasticsearch:1.6.0
+  image: joshuar/elasticsearch:1.7.0
   ports:
     - "9200:9200"
     - "9300:9300"
@@ -15,7 +15,7 @@ esc1:
     - esd3
     - esm1
 esd1:
-  image: joshuar/elasticsearch:1.6.0
+  image: joshuar/elasticsearch:1.7.0
   expose:
     - 9200
     - 9300
@@ -26,7 +26,7 @@ esd1:
     - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esd2:
-  image: joshuar/elasticsearch:1.6.0
+  image: joshuar/elasticsearch:1.7.0
   expose:
     - 9200
     - 9300
@@ -37,7 +37,7 @@ esd2:
     - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esd3:
-  image: joshuar/elasticsearch:1.6.0
+  image: joshuar/elasticsearch:1.7.0
   expose:
     - 9200
     - 9300
@@ -48,7 +48,7 @@ esd3:
     - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esm1:
-  image: joshuar/elasticsearch:1.6.0
+  image: joshuar/elasticsearch:1.7.0
   expose:
     - 9200
     - 9300
