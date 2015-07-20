@@ -1,3 +1,4 @@
 elasticsearch-cluster/data
 elasticsearch-cluster/logs
 elasticsearch-cluster/plugins
+*~

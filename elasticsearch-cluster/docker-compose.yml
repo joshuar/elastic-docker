@@ -1,13 +1,10 @@
 esc1:
-  image: joshuar/elasticsearch:1.7.0
+  extends:
+    file: es-common.yml
+    service: elasticsearch
   ports:
     - "9200:9200"
     - "9300:9300"
-  volumes:
-    - ./config:/opt/elasticsearch/config
-    - ./data:/opt/elasticsearch/data
-    - ./logs:/opt/elasticsearch/logs
-    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/client.yml
   links:
     - esd1
@@ -15,46 +12,34 @@ esc1:
     - esd3
     - esm1
 esd1:
-  image: joshuar/elasticsearch:1.7.0
+  extends:
+    file: es-common.yml
+    service: elasticsearch
   expose:
     - 9200
     - 9300
-  volumes:
-    - ./config:/opt/elasticsearch/config
-    - ./data:/opt/elasticsearch/data
-    - ./logs:/opt/elasticsearch/logs
-    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esd2:
-  image: joshuar/elasticsearch:1.7.0
+  extends:
+    file: es-common.yml
+    service: elasticsearch
   expose:
     - 9200
     - 9300
-  volumes:
-    - ./config:/opt/elasticsearch/config
-    - ./data:/opt/elasticsearch/data
-    - ./logs:/opt/elasticsearch/logs
-    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esd3:
-  image: joshuar/elasticsearch:1.7.0
+  extends:
+    file: es-common.yml
+    service: elasticsearch
   expose:
     - 9200
     - 9300
-  volumes:
-    - ./config:/opt/elasticsearch/config
-    - ./data:/opt/elasticsearch/data
-    - ./logs:/opt/elasticsearch/logs
-    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
 esm1:
-  image: joshuar/elasticsearch:1.7.0
+  extends:
+    file: es-common.yml
+    service: elasticsearch
   expose:
     - 9200
     - 9300
-  volumes:
-    - ./config:/opt/elasticsearch/config
-    - ./data:/opt/elasticsearch/data
-    - ./logs:/opt/elasticsearch/logs
-    - ./plugins:/opt/elasticsearch/plugins
   command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/master.yml
