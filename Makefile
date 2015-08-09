@@ -1,5 +1,5 @@
-ES_VERSION=1.7.0
-LS_VERSION=1.5.2
+ES_VERSION=1.7.1
+LS_VERSION=1.5.3
 KB_VERSION=4.1.1
 
 .PHONY: all elastic elasticsearch logstash kibana
