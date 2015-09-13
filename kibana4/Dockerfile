@@ -1,10 +1,10 @@
-FROM centos:latest
+FROM fedora:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
-RUN yum -q -y --nogpgcheck install tar && yum -q -y clean all
+RUN dnf -q -y --nogpgcheck install tar && dnf -q -y clean all
 
-ENV KIBANA_VERSION=4.1.1
+ENV KIBANA_VERSION=4.1.2
 
 RUN mkdir -p /opt/kibana
 RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION-linux-x64.tar.gz \
@@ -12,7 +12,7 @@ RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERS
 
 # ADD conf/kibana.yml /opt/kibana/config/kibana.yml
 
-RUN yum -q -y erase tar
+RUN dnf -q -y erase tar
 
 RUN useradd -U -d /opt/kibana -M -s /usr/bin/bash kibana
 RUN chown -R kibana:kibana /opt/kibana
