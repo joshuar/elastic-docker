@@ -9,10 +9,10 @@ all: elastic
 elastic: elasticsearch logstash kibana
 
 elasticsearch:
-	cd elasticsearch && tar -czh . | docker build -t joshuar/elasticsearch:$(ES_VERSION) -
+	./build.sh elasticsearch joshuar/elasticsearch:$(ES_VERSION)
 
 logstash:
-	cd logstash && tar -czh . | docker build -t joshuar/logstash:$(LS_VERSION) -
+	./build.sh logstash joshuar/logstash:$(LS_VERSION)
 
 kibana:
-	cd kibana4 && docker build -t joshuar/kibana:$(KB_VERSION) .
+	./build.sh kibana joshuar/kibana:$(KB_VERSION)
