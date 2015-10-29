@@ -4,7 +4,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
 RUN dnf -q -y --nogpgcheck install tar && dnf -q -y clean all
 
-ENV KIBANA_VERSION=4.1.2
+ENV KIBANA_VERSION=4.2.0
 
 RUN mkdir -p /opt/kibana
 RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION-linux-x64.tar.gz \

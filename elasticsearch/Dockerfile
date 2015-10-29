@@ -2,8 +2,8 @@ FROM fedora:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
-ENV ES_VERSION 1.7.3
-ENV ES_URL https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz
+ENV ES_VERSION 2.0.0
+ENV ES_URL https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.tar.gz
 
 RUN dnf -q -y --nogpgcheck install tar && dnf -q clean all
 
