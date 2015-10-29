@@ -5,6 +5,9 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 ENV ES_VERSION 2.0.0
 ENV ES_URL https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.tar.gz
 
+LABEL version=$ES_VERSION \
+      license="Apache 2.0"
+
 RUN dnf -q -y --nogpgcheck install tar && dnf -q clean all
 
 COPY install-server-jre.sh /

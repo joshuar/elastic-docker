@@ -4,10 +4,13 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
 RUN dnf -q -y --nogpgcheck install tar && dnf -q -y clean all
 
-ENV KIBANA_VERSION=4.2.0
+ENV KB_VERSION=4.2.0
+
+LABEL version=$KB_VERSION \
+      license="Apache 2.0"
 
 RUN mkdir -p /opt/kibana
-RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION-linux-x64.tar.gz \
+RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz \
     | tar -C /opt/kibana --strip-components=1 -xzf -
 
 # ADD conf/kibana.yml /opt/kibana/config/kibana.yml

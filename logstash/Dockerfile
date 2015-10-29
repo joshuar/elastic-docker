@@ -5,6 +5,9 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 ENV LS_VERSION 2.0.0
 ENV LS_URL https://download.elastic.co/logstash/logstash/logstash-$LS_VERSION.tar.gz
 
+LABEL version=$LS_VERSION \
+      license="Apache 2.0"
+
 RUN dnf -q -y --nogpgcheck install tar && dnf -q clean all
 
 COPY install-server-jre.sh /
