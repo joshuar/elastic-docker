@@ -2,26 +2,49 @@ FROM fedora:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
-RUN dnf -q -y --nogpgcheck install tar && dnf -q -y clean all
+# Environment variables for:
+# - Kibana version
+# - Kibana download URL
+# - User to run Kibana as inside the container
+# - UID to use for Kibana user
+ENV KB_VERSION 4.2.0
+ENV KB_URL https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz
+ENV KB_USER kibana
+ENV KB_UID 900
+ENV GOSU_URL https://github.com/tianon/gosu/releases/download/1.6/gosu-amd64
 
-ENV KB_VERSION=4.2.0
-
+# Set up some custom labels for:
+# - Kibana version
+# - Dockerfile license
 LABEL version=$KB_VERSION \
       license="Apache 2.0"
 
-RUN mkdir -p /opt/kibana
-RUN curl -s https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz \
-    | tar -C /opt/kibana --strip-components=1 -xzf -
+# Download and install Kibana
+RUN dnf -q -y --nogpgcheck install tar && dnf -q -y clean all && \
+    mkdir -p /opt/kibana && \
+    curl -s $KB_URL | tar -C /opt/kibana --strip-components=1 -xzf - && \
+    dnf -q -y erase tar
 
-# ADD conf/kibana.yml /opt/kibana/config/kibana.yml
+# Download and install gosu
+RUN curl -s -L -o /usr/local/bin/gosu $GOSU_URL && \
+    chmod +x /usr/local/bin/gosu
 
-RUN dnf -q -y erase tar
+# Create Kibana user
+RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER && \
+    chown -R kibana:kibana /opt/kibana
 
-RUN useradd -U -d /opt/kibana -M -s /usr/bin/bash kibana
-RUN chown -R kibana:kibana /opt/kibana
+# Copy over default Kibana configuration file
+COPY kibana.yml /opt/kibana/config/kibana.yml
 
-USER kibana
+# Set working directory
+VOLUME [ "/opt/kibana/config" ]
+WORKDIR [ "/opt/kibana" ]
 
-ENTRYPOINT ["/opt/kibana/bin/kibana"]
+# Install entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
+# Set up entrypoint, forwarded ports and default command
+ENTRYPOINT [ "/entrypoint.sh" ]
 EXPOSE "5601/tcp"
+CMD [ "kibana" ]
