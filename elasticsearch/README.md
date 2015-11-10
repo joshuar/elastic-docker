@@ -34,3 +34,13 @@ sudo docker run --name elasticsearch -d -p 9200:9200/tcp -p 9300:9300/tcp \
   -e ES_JAVA_OPTS="-Des.logger.level=DEBUG" \
   joshuar/elasticsearch:x.x.x
 ```
+
+You can also pass command-line options for Elasticsearch itself to
+`docker run`:
+
+```
+sudo docker run --name elasticsearch -d -p 9200:9200/tcp -p 9300:9300/tcp \
+    joshuar/elasticsearch:x.x.x elasticsearch \
+    --cluster.name my_cluster_name \
+    --node.name my_node_name
+```
