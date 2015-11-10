@@ -24,9 +24,9 @@ COPY install-server-jre.sh /
 RUN dnf -q -y --nogpgcheck install tar && dnf -q clean all && \
     bash /install-server-jre.sh && rm -f /install-server-jre.sh && \
     rm -f /install-server-jre.sh && \
-    curl -s -L -o - $ES_URL | tar -xz -C /opt && \
+    mkdir /opt/elasticsearch && \
+    curl -s -L -o - $ES_URL | tar -C /opt/elasticsearch --strip-components=1 --owner=root --group=root -xzf - && \
     dnf -q -y erase tar && \
-    ln -s /opt/elasticsearch-$ES_VERSION /opt/elasticsearch && \
     mkdir /opt/elasticsearch/{data,logs,plugins}
 
 # Download and install gosu
@@ -39,7 +39,8 @@ COPY logging.yml /opt/elasticsearch/config/logging.yml
 
 # Create the Elasticsearch user
 RUN useradd -r -u $ES_UID -d /opt/elasticsearch -s /usr/bin/bash $ES_USER && \
-    chown -R $ES_USER:root /opt/elasticsearch-$ES_VERSION
+    chown -R $ES_USER:root /opt/elasticsearch/{data,logs,plugins,config} && \
+    chmod u+rwx /opt/elasticsearch/{data,logs,plugins,config}
 
 # Volumes to mount on host
 VOLUME ["/opt/elasticsearch/data","/opt/elasticsearch/config","/opt/elasticsearch/logs","/opt/elasticsearch/plugins"]
