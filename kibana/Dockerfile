@@ -33,6 +33,9 @@ RUN curl -s -L -o /usr/local/bin/gosu $GOSU_URL && \
 RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER && \
     chown -R kibana:kibana /opt/kibana
 
+# Install Marvel plugin
+RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest
+
 # Copy over default Kibana configuration file
 COPY kibana.yml /opt/kibana/config/kibana.yml
 
