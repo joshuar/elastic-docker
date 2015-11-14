@@ -39,6 +39,9 @@ RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest
 # Install Sense plugin
 RUN /opt/kibana/bin/kibana plugin --install elastic/sense
 
+# Install Timelion plugin
+RUN /opt/kibana/bin/kibana plugin --install kibana/timelion
+
 # Copy over default Kibana configuration file
 COPY kibana.yml /opt/kibana/config/kibana.yml
 
