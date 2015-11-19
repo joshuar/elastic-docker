@@ -7,7 +7,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - Kibana download URL
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
-ENV KB_VERSION 4.2.0
+ENV KB_VERSION 4.2.1
 ENV KB_URL https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz
 ENV KB_USER kibana
 ENV KB_UID 900
@@ -30,8 +30,7 @@ RUN curl -s -L -o /usr/local/bin/gosu $GOSU_URL && \
     chmod +x /usr/local/bin/gosu
 
 # Create Kibana user
-RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER && \
-    chown -R kibana:kibana /opt/kibana
+RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER
 
 # Install Marvel plugin
 RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest
@@ -44,6 +43,9 @@ RUN /opt/kibana/bin/kibana plugin --install kibana/timelion
 
 # Copy over default Kibana configuration file
 COPY kibana.yml /opt/kibana/config/kibana.yml
+
+# Fix permissions
+RUN chown -R kibana:kibana /opt/kibana
 
 # Set working directory
 VOLUME [ "/opt/kibana/config" ]
