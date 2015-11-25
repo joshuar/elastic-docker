@@ -7,4 +7,4 @@ if [[ "$1" = 'elasticsearch' ]]; then
     exec /usr/local/bin/gosu $ES_USER /opt/elasticsearch/bin/elasticsearch "$@"
 fi
 
-exec exec /usr/local/bin/gosu $ES_USER "$@"
+exec /usr/local/bin/gosu $ES_USER "$@"
