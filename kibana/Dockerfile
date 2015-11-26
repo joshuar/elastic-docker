@@ -7,7 +7,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - Kibana download URL
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
-ENV KB_VERSION 4.2.1
+ENV KB_VERSION 4.3.0
 ENV KB_URL https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz
 ENV KB_USER kibana
 ENV KB_UID 900
