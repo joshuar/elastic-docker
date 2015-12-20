@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM joshuar/elastic-base:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
@@ -7,7 +7,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - Elasticsearch download URL
 # - User to run Elasticsearch as inside the container
 # - UID to use for Elasticsearch user
-ENV ES_VERSION 2.1.0
+ENV ES_VERSION 2.1.1
 ENV ES_URL https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.tar.gz
 ENV ES_USER elasticsearch
 ENV ES_UID 900
@@ -18,20 +18,11 @@ ENV ES_UID 900
 LABEL version=$ES_VERSION \
       license="Apache 2.0"
 
-# - Copy over the script to download and install Oracle Server JRE
-# - Download and install Elasticsearch into /opt/elasticsearch
-COPY install-server-jre.sh /
-RUN dnf -q -y --nogpgcheck install tar && dnf -q clean all && \
-    bash /install-server-jre.sh && rm -f /install-server-jre.sh && \
-    rm -f /install-server-jre.sh && \
-    mkdir /opt/elasticsearch && \
+# Download and install Elasticsearch into /opt/elasticsearch
+RUN mkdir /opt/elasticsearch && \
     curl -s -L -o - $ES_URL | tar -C /opt/elasticsearch --strip-components=1 --owner=root --group=root -xzf - && \
     dnf -q -y erase tar && \
     mkdir /opt/elasticsearch/{data,logs,plugins}
-
-# Download and install gosu
-RUN curl -s -L -o /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.6/gosu-amd64" && \
-    chmod +x /usr/local/bin/gosu
 
 # Copy over default Elasticsearch general/logging configuration files
 COPY elasticsearch.yml /opt/elasticsearch/config/elasticsearch.yml

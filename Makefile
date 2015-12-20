@@ -1,14 +1,17 @@
-ES_VERSION=2.1.0
-KB_VERSION=4.3.0
+ES_VERSION=2.1.1
+KB_VERSION=4.3.1
 
 .PHONY: all elastic elasticsearch kibana
 
-all: elastic
+all: base elastic
 
-elastic: elasticsearch kibana
+elastic: base elasticsearch kibana
+
+base:
+	cd elastic-base && docker build -t joshuar/elastic-base:latest .
 
 elasticsearch:
-	./build.sh elasticsearch joshuar/elasticsearch:$(ES_VERSION)
+	cd elasticsearch && docker build -t joshuar/elasticsearch:$(ES_VERSION) .
 
 kibana:
-	./build.sh kibana joshuar/kibana:$(KB_VERSION)
+	cd kibana && docker build -t joshuar/kibana:$(KB_VERSION) .

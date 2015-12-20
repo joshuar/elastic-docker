@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM joshuar/elastic-base:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
@@ -7,11 +7,10 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - Kibana download URL
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
-ENV KB_VERSION 4.3.0
+ENV KB_VERSION 4.3.1
 ENV KB_URL https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz
 ENV KB_USER kibana
 ENV KB_UID 900
-ENV GOSU_URL https://github.com/tianon/gosu/releases/download/1.6/gosu-amd64
 
 # Set up some custom labels for:
 # - Kibana version
@@ -20,14 +19,9 @@ LABEL version=$KB_VERSION \
       license="Apache 2.0"
 
 # Download and install Kibana
-RUN dnf -q -y --nogpgcheck install tar && dnf -q -y clean all && \
-    mkdir -p /opt/kibana && \
+RUN mkdir -p /opt/kibana && \
     curl -s $KB_URL | tar -C /opt/kibana --strip-components=1 -xzf - && \
     dnf -q -y erase tar
-
-# Download and install gosu
-RUN curl -s -L -o /usr/local/bin/gosu $GOSU_URL && \
-    chmod +x /usr/local/bin/gosu
 
 # Create Kibana user
 RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER
