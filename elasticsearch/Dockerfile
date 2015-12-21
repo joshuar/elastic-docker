@@ -33,8 +33,15 @@ RUN useradd -r -u $ES_UID -d /opt/elasticsearch -s /usr/bin/bash $ES_USER && \
     chown -R $ES_USER:root /opt/elasticsearch/{data,logs,plugins,config} && \
     chmod u+rwx /opt/elasticsearch/{data,logs,plugins,config}
 
+# Install the commercial plugins.  These still need a license, which can be loaded
+# after starting the container.
+RUN /opt/elasticsearch/bin/plugin install license && \
+    /opt/elasticsearch/bin/plugin install marvel-agent && \
+    /opt/elasticsearch/bin/plugin install watcher && \
+    /opt/elasticsearch/bin/plugin install shield
+
 # Volumes to mount on host
-VOLUME ["/opt/elasticsearch/data","/opt/elasticsearch/config","/opt/elasticsearch/logs","/opt/elasticsearch/plugins"]
+VOLUME ["/opt/elasticsearch/data","/opt/elasticsearch/config","/opt/elasticsearch/logs"]
 WORKDIR [ "/opt/elasticsearch" ]
 
 # Install entrypoint script

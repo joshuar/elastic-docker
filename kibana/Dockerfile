@@ -26,14 +26,10 @@ RUN mkdir -p /opt/kibana && \
 # Create Kibana user
 RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER
 
-# Install Marvel plugin
-RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest
-
-# Install Sense plugin
-RUN /opt/kibana/bin/kibana plugin --install elastic/sense
-
-# Install Timelion plugin
-RUN /opt/kibana/bin/kibana plugin --install kibana/timelion
+# Install Marvel, Sense and Timelion
+RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest && \
+    /opt/kibana/bin/kibana plugin --install elastic/sense && \
+    /opt/kibana/bin/kibana plugin --install kibana/timelion
 
 # Copy over default Kibana configuration file
 COPY kibana.yml /opt/kibana/config/kibana.yml
