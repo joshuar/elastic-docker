@@ -5,6 +5,6 @@ node.data: true
 node.client: false
 
 index.number_of_shards: 3
-index.number_of_replicas: 0
+index.number_of_replicas: 1
 
 discovery.zen.ping.multicast.enabled: true

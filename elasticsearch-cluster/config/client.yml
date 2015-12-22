@@ -4,6 +4,4 @@ node.master: false
 node.data: false
 node.client: true
 
-http.cors.enabled: true
-
 discovery.zen.ping.multicast.enabled: true
