@@ -15,3 +15,6 @@ elasticsearch:
 
 kibana:
 	cd kibana && docker build -t joshuar/kibana:$(KB_VERSION) .
+
+curator:
+	cd curator && docker build -t joshuar/curator:latest .

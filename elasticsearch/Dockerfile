@@ -18,6 +18,9 @@ ENV ES_UID 900
 LABEL version=$ES_VERSION \
       license="Apache 2.0"
 
+# Install Java
+RUN dnf -q -y install java-1.8.0-openjdk-headless java-1.8.0-openjdk-devel
+
 # Download and install Elasticsearch into /opt/elasticsearch
 RUN mkdir /opt/elasticsearch && \
     curl -s -L -o - $ES_URL | tar -C /opt/elasticsearch --strip-components=1 --owner=root --group=root -xzf - && \
