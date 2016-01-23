@@ -43,6 +43,13 @@ RUN /opt/elasticsearch/bin/plugin install license && \
     /opt/elasticsearch/bin/plugin install watcher && \
     /opt/elasticsearch/bin/plugin install shield
 
+# Performance Tweaks
+RUN echo "$ES_USER - nofile 65535" >> /etc/security/limits.conf && \
+    echo "$ES_USER - memlock unlimited" >> /etc/security/limits.conf && \
+    echo vm.max_map_count=262144 > /etc/sysctl.d/max_map_count.conf
+ENV MAX_OPEN_FILES=65535
+ENV MAX_LOCKED_MEMORY=unlimited
+
 # Volumes to mount on host
 VOLUME ["/opt/elasticsearch/data","/opt/elasticsearch/config","/opt/elasticsearch/logs"]
 WORKDIR [ "/opt/elasticsearch" ]
