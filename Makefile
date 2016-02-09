@@ -1,5 +1,5 @@
-ES_VERSION=2.1.1
-KB_VERSION=4.3.1
+ES_VERSION=2.2.0
+KB_VERSION=4.4.0
 
 .PHONY: all elastic elasticsearch kibana
 

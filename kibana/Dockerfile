@@ -7,7 +7,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - Kibana download URL
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
-ENV KB_VERSION 4.3.1
+ENV KB_VERSION 4.4.0
 ENV KB_URL https://download.elasticsearch.org/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz
 ENV KB_USER kibana
 ENV KB_UID 900
@@ -29,8 +29,7 @@ RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER
 # Install Marvel, Sense and Timelion
 RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest && \
     /opt/kibana/bin/kibana plugin --install elastic/sense && \
-    /opt/kibana/bin/kibana plugin --install kibana/timelion && \
-    /opt/kibana/bin/kibana plugin --install stormpython/tagcloud
+    /opt/kibana/bin/kibana plugin --install kibana/timelion
 
 # Copy over default Kibana configuration file
 COPY kibana.yml /opt/kibana/config/kibana.yml
