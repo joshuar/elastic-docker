@@ -1,45 +1,35 @@
-esc1:
-  extends:
-    file: es-common.yml
-    service: elasticsearch
-  ports:
-    - "9200:9200"
-    - "9300:9300"
-  command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/client.yml
-  links:
-    - esd1
-    - esd2
-    - esd3
-    - esm1
-esd1:
-  extends:
-    file: es-common.yml
-    service: elasticsearch
-  expose:
-    - 9200
-    - 9300
-  command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
-esd2:
-  extends:
-    file: es-common.yml
-    service: elasticsearch
-  expose:
-    - 9200
-    - 9300
-  command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
-esd3:
-  extends:
-    file: es-common.yml
-    service: elasticsearch
-  expose:
-    - 9200
-    - 9300
-  command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/data.yml
-esm1:
-  extends:
-    file: es-common.yml
-    service: elasticsearch
-  expose:
-    - 9200
-    - 9300
-  command: /opt/elasticsearch/bin/elasticsearch -Des.config=/opt/elasticsearch/config/master.yml
+version: '2'
+
+services:
+  esm1:
+    extends:
+      file: elasticsearch-common.yml
+      service: elasticsearch_master
+  esd1:
+    extends:
+      file: elasticsearch-common.yml
+      service: elasticsearch_data
+  esd2:
+    extends:
+      file: elasticsearch-common.yml
+      service: elasticsearch_data
+  esd3:
+    extends:
+      file: elasticsearch-common.yml
+      service: elasticsearch_data
+  esc1:
+    extends:
+      file: elasticsearch-common.yml
+      service: elasticsearch_client
+    links:
+      - esd1
+      - esd2
+      - esd3
+  kb1:
+    image: joshuar/kibana:4.4.0
+    volumes:
+      - ./kb/config:/opt/kibana/config
+    links:
+      - esc1:es
+    ports:
+      - 5601:5601

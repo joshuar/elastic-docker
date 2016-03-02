@@ -1,6 +1,0 @@
-elasticsearch:
-    image: joshuar/elasticsearch:2.1.1
-    volumes:
-      - ./config:/opt/elasticsearch/config
-      - ./data:/opt/elasticsearch/data
-      - ./logs:/opt/elasticsearch/logs
