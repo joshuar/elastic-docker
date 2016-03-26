@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  elasticsearch_master:
+    image: joshuar/elasticsearch:2.2.0
+    volumes:
+      - ./es/config/master:/opt/elasticsearch/config
+      - ./es/data:/opt/elasticsearch/data
+      - ./es/logs:/opt/elasticsearch/logs
+    expose:
+      - 9200/tcp
+      - 9300/tcp
+    environment:
+      ES_JAVA_OPTS: -XX:+PreserveFramePointer
+      ES_HEAP_SIZE: 256m
+  elasticsearch_data:
+    image: joshuar/elasticsearch:2.2.0
+    volumes:
+      - ./es/config/data:/opt/elasticsearch/config
+      - ./es/data:/opt/elasticsearch/data
+      - ./es/logs:/opt/elasticsearch/logs
+    expose:
+      - 9200/tcp
+      - 9300/tcp
+    environment:
+      ES_JAVA_OPTS: -XX:+PreserveFramePointer
+      ES_HEAP_SIZE: 512m
+  elasticsearch_client:
+    image: joshuar/elasticsearch:2.2.0
+    volumes:
+      - ./es/config/client:/opt/elasticsearch/config
+      - ./es/data:/opt/elasticsearch/data
+      - ./es/logs:/opt/elasticsearch/logs
+    expose:
+      - 9200/tcp
+      - 9300/tcp
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      ES_JAVA_OPTS: -XX:+PreserveFramePointer
+      ES_HEAP_SIZE: 512m

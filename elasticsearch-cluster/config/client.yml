@@ -1,7 +1,0 @@
-cluster.name: joshuar_es
-
-node.master: false
-node.data: false
-node.client: true
-
-discovery.zen.ping.multicast.enabled: true
