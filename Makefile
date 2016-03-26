@@ -10,11 +10,11 @@ elastic: base elasticsearch kibana
 base:
 	cd elastic-base && docker build -t joshuar/elastic-base:latest .
 
-elasticsearch:
-	cd elasticsearch && docker build -t joshuar/elasticsearch:$(ES_VERSION) .
+elasticsearch: base
+	cd elasticsearch && docker build --build-arg ES_VERSION=$(ES_VERSION) -t joshuar/elasticsearch:$(ES_VERSION) .
 
-kibana:
-	cd kibana && docker build -t joshuar/kibana:$(KB_VERSION) .
+kibana: base
+	cd kibana && docker build --build-arg ES_VERSION=$(KB_VERSION) -t joshuar/kibana:$(KB_VERSION) .
 
-curator:
+curator: base
 	cd curator && docker build -t joshuar/curator:latest .

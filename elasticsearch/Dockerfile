@@ -7,7 +7,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - Elasticsearch download URL
 # - User to run Elasticsearch as inside the container
 # - UID to use for Elasticsearch user
-ENV ES_VERSION 2.2.0
+ARG ES_VERSION
 ENV ES_URL https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.tar.gz
 ENV ES_USER elasticsearch
 ENV ES_UID 900
