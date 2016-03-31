@@ -38,10 +38,10 @@ RUN useradd -r -u $ES_UID -d /opt/elasticsearch -s /usr/bin/bash $ES_USER && \
 
 # Install the commercial plugins.  These still need a license, which can be loaded
 # after starting the container.
-RUN /opt/elasticsearch/bin/plugin install license && \
-    /opt/elasticsearch/bin/plugin install marvel-agent && \
-    /opt/elasticsearch/bin/plugin install watcher && \
-    /opt/elasticsearch/bin/plugin install shield
+RUN /opt/elasticsearch/bin/plugin install --batch license && \
+    /opt/elasticsearch/bin/plugin install --batch marvel-agent && \
+    /opt/elasticsearch/bin/plugin install --batch watcher && \
+    /opt/elasticsearch/bin/plugin install --batch shield
 
 # Performance Tweaks
 RUN echo "$ES_USER - nofile 65535" >> /etc/security/limits.conf && \

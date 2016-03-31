@@ -4,7 +4,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 LABEL license="Apache 2.0"
 
 # Install necessary programs
-RUN dnf -q -y install tar gpg
+RUN dnf -q -y install tar gpg hostname
 
 # Download and install gosu
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
