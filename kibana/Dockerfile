@@ -26,10 +26,14 @@ RUN mkdir -p /opt/kibana && \
 # Create Kibana user
 RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER
 
-# Install Marvel, Sense and Timelion
+# Install plugins
 RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest && \
+    /opt/kibana/bin/kibana plugin --install elasticsearch/graph/latest
     /opt/kibana/bin/kibana plugin --install elastic/sense && \
-    /opt/kibana/bin/kibana plugin --install kibana/timelion
+    /opt/kibana/bin/kibana plugin --install kibana/timelion && \
+    /opt/kibana/bin/kibana plugin -i tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip && \
+    /opt/kibana/bin/kibana plugin -i heatmap -u https://github.com/stormpython/heatmap/archive/master.zip
+    /opt/kibana/bin/kibana plugin -i vectormap -u https://github.com/stormpython/vectormap/archive/master.zip
 
 # Copy over default Kibana configuration file
 COPY kibana.yml /opt/kibana/config/kibana.yml

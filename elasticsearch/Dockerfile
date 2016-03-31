@@ -41,7 +41,8 @@ RUN useradd -r -u $ES_UID -d /opt/elasticsearch -s /usr/bin/bash $ES_USER && \
 RUN /opt/elasticsearch/bin/plugin install --batch license && \
     /opt/elasticsearch/bin/plugin install --batch marvel-agent && \
     /opt/elasticsearch/bin/plugin install --batch watcher && \
-    /opt/elasticsearch/bin/plugin install --batch shield
+    /opt/elasticsearch/bin/plugin install --batch shield && \
+    /opt/elasticsearch/bin/plugin install --batch graph
 
 # Performance Tweaks
 RUN echo "$ES_USER - nofile 65535" >> /etc/security/limits.conf && \
