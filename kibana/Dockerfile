@@ -8,9 +8,11 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
 ARG KB_VERSION
-ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-linux-x64.tar.gz
+ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-1.x86_64.rpm
 ENV KB_USER kibana
 ENV KB_UID 900
+ENV KB_HOME /opt/kibana
+
 
 # Set up some custom labels for:
 # - Kibana version
@@ -19,31 +21,27 @@ LABEL version=$KB_VERSION \
       license="Apache 2.0"
 
 # Download and install Kibana
-RUN mkdir -p /opt/kibana && \
-    curl -s -L $KB_URL | tar -C /opt/kibana --strip-components=1 -xzf - && \
-    dnf -q -y erase tar
-
-# Create Kibana user
-RUN useradd -r -u $KB_UID -d /opt/kibana -s /usr/bin/bash $KB_USER
+RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
+    dnf -q -y install $KB_URL
 
 # Install plugins
-RUN /opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest && \
-    /opt/kibana/bin/kibana plugin --install elasticsearch/graph/latest && \
-    /opt/kibana/bin/kibana plugin --install elastic/sense && \
-    /opt/kibana/bin/kibana plugin --install kibana/timelion && \
-    /opt/kibana/bin/kibana plugin -i tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip && \
-    /opt/kibana/bin/kibana plugin -i heatmap -u https://github.com/stormpython/heatmap/archive/master.zip && \
-    /opt/kibana/bin/kibana plugin -i vectormap -u https://github.com/stormpython/vectormap/archive/master.zip
+RUN $KB_HOME/bin/kibana plugin --install elasticsearch/marvel/latest && \
+    $KB_HOME/bin/kibana plugin --install elasticsearch/graph/latest && \
+    $KB_HOME/bin/kibana plugin --install elastic/sense && \
+    $KB_HOME/bin/kibana plugin --install kibana/timelion && \
+    $KB_HOME/bin/kibana plugin -i tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip && \
+    $KB_HOME/bin/kibana plugin -i heatmap -u https://github.com/stormpython/heatmap/archive/master.zip && \
+    $KB_HOME/bin/kibana plugin -i vectormap -u https://github.com/stormpython/vectormap/archive/master.zip
 
-# Copy over default Kibana configuration file
-COPY kibana.yml /opt/kibana/config/kibana.yml
-
-# Fix permissions
-RUN chown -R kibana:kibana /opt/kibana
+RUN old_kb_user=$(id -u kibana); \
+    usermod -u $KB_UID $KB_USER && \
+    dnf -q -y install findutils && \
+    find / -xdev -user $old_kb_user -exec chown -h $KB_USER {} + && \
+    dnf -q -y remove findutils
 
 # Set working directory
-VOLUME [ "/opt/kibana/config" ]
-WORKDIR [ "/opt/kibana" ]
+VOLUME ["$KB_HOME/config"]
+WORKDIR [$KB_HOME ]
 
 # Install entrypoint script
 COPY entrypoint.sh /entrypoint.sh

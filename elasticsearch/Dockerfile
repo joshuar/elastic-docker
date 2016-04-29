@@ -30,11 +30,6 @@ RUN dnf -q -y install java-1.8.0-openjdk-headless java-1.8.0-openjdk-devel
 RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
     dnf -q -y install $ES_URL
 
-# # Create the Elasticsearch user
-# RUN useradd -r -u $ES_UID -d /opt/elasticsearch -s /usr/bin/bash $ES_USER && \
-#     chown -R $ES_USER:root /opt/elasticsearch/{data,logs,plugins,config} && \
-#     chmod u+rwx /opt/elasticsearch/{data,logs,plugins,config}
-
 # Install the commercial plugins.  These still need a license, which can be loaded
 # after starting the container.
 RUN $ES_HOME/bin/plugin install --batch license && \

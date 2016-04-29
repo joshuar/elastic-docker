@@ -2,8 +2,8 @@
 set -e
 
 if [ "$1" = 'kibana' ]; then
-    chown -R $KB_USER:root /opt/kibana/config
-    exec /usr/local/bin/gosu $KB_USER /opt/kibana/bin/kibana
+    chown -R "${KB_USER}":root "${KB_HOME}/config"
+    exec /usr/local/bin/gosu "${KB_USER}" "${KB_HOME}/bin/kibana"
 fi
 
-exec "$@"
+exec /usr/local/bin/gosu "${KB_USER}" "$@"
