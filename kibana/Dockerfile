@@ -37,7 +37,8 @@ RUN old_kb_user=$(id -u kibana); \
     usermod -u $KB_UID $KB_USER && \
     dnf -q -y install findutils && \
     find / -xdev -user $old_kb_user -exec chown -h $KB_USER {} + && \
-    dnf -q -y remove findutils
+    dnf -q -y remove findutils && \
+    chown $KB_USER $KB_HOME/optimize/.babelcache.json
 
 # Set working directory
 VOLUME ["$KB_HOME/config"]
