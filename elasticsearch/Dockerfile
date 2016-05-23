@@ -51,8 +51,8 @@ ENV MAX_LOCKED_MEMORY=unlimited
 ENV MAX_MAP_COUNT=262144
 
 # Volumes to mount on host
-VOLUME [$ES_DATA_DIR,$ES_CONF_DIR,$ES_LOG_DIR]
-WORKDIR [$ES_HOME]
+VOLUME $ES_DATA_DIR $ES_CONF_DIR $ES_LOG_DIR
+WORKDIR $ES_HOME
 
 # Install entrypoint script
 COPY entrypoint.sh /entrypoint.sh
