@@ -29,9 +29,9 @@ RUN $KB_HOME/bin/kibana plugin --install elasticsearch/marvel/latest && \
     $KB_HOME/bin/kibana plugin --install elasticsearch/graph/latest && \
     $KB_HOME/bin/kibana plugin --install elastic/sense && \
     $KB_HOME/bin/kibana plugin --install kibana/timelion && \
-    $KB_HOME/bin/kibana plugin -i tagcloud -u https://github.com/stormpython/tagcloud/archive/master.zip && \
-    $KB_HOME/bin/kibana plugin -i heatmap -u https://github.com/stormpython/heatmap/archive/master.zip && \
-    $KB_HOME/bin/kibana plugin -i vectormap -u https://github.com/stormpython/vectormap/archive/master.zip
+    $KB_HOME/bin/kibana plugin --install kibi_wordcloud_vis -u https://github.com/sirensolutions/kibi_wordcloud_vis/raw/0.1.0/target/kibi_wordcloud_vis-0.1.0.zip && \
+    $KB_HOME/bin/kibana plugin --install kibi_radar_vis -u  https://github.com/sirensolutions/kibi_radar_vis/archive/0.1.0.zip && \
+    $KB_HOME/bin/kibana plugin --install prelert_swimlane_vis -u https://github.com/prelert/kibana-swimlane-vis/archive/v0.1.0.tar.gz
 
 RUN old_kb_user=$(id -u kibana); \
     usermod -u $KB_UID $KB_USER && \

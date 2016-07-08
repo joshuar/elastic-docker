@@ -36,17 +36,19 @@ RUN $ES_HOME/bin/plugin install --batch license && \
     $ES_HOME/bin/plugin install --batch marvel-agent && \
     $ES_HOME/bin/plugin install --batch watcher && \
     $ES_HOME/bin/plugin install --batch shield && \
-    $ES_HOME/bin/plugin install --batch graph
+    $ES_HOME/bin/plugin install --batch graph && \
+    $ES_HOME/bin/plugin install --batch cloud-aws
+
 
 RUN old_es_user=$(id -u elasticsearch); \
     usermod -u $ES_UID $ES_USER; \
     find / -xdev -user $old_es_user -exec chown -h $ES_USER {} +
 
 # Performance Tweaks
-RUN echo "$ES_USER - nofile 65535" >> /etc/security/limits.conf && \
+RUN echo "$ES_USER - nofile 131070" >> /etc/security/limits.conf && \
     echo "$ES_USER - memlock unlimited" >> /etc/security/limits.conf && \
     echo vm.max_map_count=262144 > /etc/sysctl.d/max_map_count.conf
-ENV MAX_OPEN_FILES=65535
+ENV MAX_OPEN_FILES=131070
 ENV MAX_LOCKED_MEMORY=unlimited
 ENV MAX_MAP_COUNT=262144
 
