@@ -26,10 +26,14 @@ services:
       - esd2
       - esd3
   kb1:
-    image: joshuar/kibana:4.4.0
+    image: joshuar/kibana:4.5.2
     volumes:
       - ./kb/config:/opt/kibana/config
     links:
       - esc1:es
     ports:
       - 5601:5601
+    environment:
+      NODE_OPTIONS: --max-old-space-size=512
+    depends_on:
+      - esc1

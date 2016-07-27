@@ -16,7 +16,7 @@
 # kibana.index: ".kibana"
 
 # The default application to load.
-# kibana.defaultAppId: "discover"
+kibana.defaultAppId: "sense"
 
 # If your Elasticsearch is protected with basic auth, this is the user credentials
 # used by the Kibana server to perform maintenance on the kibana_index at startup. Your Kibana
@@ -70,3 +70,5 @@
 
 # Set this to true to log all events, including system usage information and all requests.
 # logging.verbose
+kibana.enabled: false        # disable the standard kibana discovery, visualize & dashboard plugins
+elasticsearch.enabled: false # do not require a running Elasticsearch 2.0 instance

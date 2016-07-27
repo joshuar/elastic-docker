@@ -1,7 +1,7 @@
 ES_VERSION=2.3.4
 KB_VERSION=4.5.2
 
-.PHONY: all elastic elasticsearch kibana
+.PHONY: all base elastic elasticsearch kibana sense
 
 all: base elastic
 
@@ -16,5 +16,5 @@ elasticsearch: base
 kibana: base
 	cd kibana && docker build --build-arg KB_VERSION=$(KB_VERSION) -t joshuar/kibana:$(KB_VERSION) .
 
-curator: base
-	cd curator && docker build -t joshuar/curator:latest .
+sense: base
+	cd sense && docker build --build-arg KB_VERSION=$(KB_VERSION) -t joshuar/sense:$(KB_VERSION) .
