@@ -1,5 +1,6 @@
-ES_VERSION=2.3.4
-KB_VERSION=4.5.2
+ES_VERSION=2.3.5
+KB_VERSION=4.5.4
+GOSU_VERSION=1.9
 
 .PHONY: all base elastic elasticsearch kibana sense
 
@@ -8,7 +9,7 @@ all: base elastic
 elastic: base elasticsearch kibana
 
 base:
-	cd base && docker build -t joshuar/elastic-base:latest .
+	cd base && docker build --build-arg GOSU_VERSION=$(GOSU_VERSION) -t joshuar/elastic-base:latest .
 
 elasticsearch: base
 	cd elasticsearch && docker build --build-arg ES_VERSION=$(ES_VERSION) -t joshuar/elasticsearch:$(ES_VERSION) .
