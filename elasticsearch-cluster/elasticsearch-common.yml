@@ -2,11 +2,11 @@ version: '2'
 
 services:
   elasticsearch_master:
-    image: joshuar/elasticsearch:2.3.4
+    image: joshuar/elasticsearch:2.3.5
     volumes:
-      - ./es/config/master:/opt/elasticsearch/config
-      - ./es/data:/opt/elasticsearch/data
-      - ./es/logs:/opt/elasticsearch/logs
+      - ./es/config/master:/etc/elasticsearch
+      - ./es/data:/var/lib/elasticsearch
+      - ./es/logs:/var/log/elasticsearch
     expose:
       - 9200/tcp
       - 9300/tcp
@@ -16,11 +16,11 @@ services:
     ulimits:
       memlock: -1
   elasticsearch_data:
-    image: joshuar/elasticsearch:2.3.4
+    image: joshuar/elasticsearch:2.3.5
     volumes:
-      - ./es/config/data:/opt/elasticsearch/config
-      - ./es/data:/opt/elasticsearch/data
-      - ./es/logs:/opt/elasticsearch/logs
+      - ./es/config/data:/etc/elasticsearch
+      - ./es/data:/var/lib/elasticsearch
+      - ./es/logs:/var/log/elasticsearch
     expose:
       - 9200/tcp
       - 9300/tcp
@@ -30,11 +30,11 @@ services:
     ulimits:
       memlock: -1
   elasticsearch_client:
-    image: joshuar/elasticsearch:2.3.4
+    image: joshuar/elasticsearch:2.3.5
     volumes:
-      - ./es/config/client:/opt/elasticsearch/config
-      - ./es/data:/opt/elasticsearch/data
-      - ./es/logs:/opt/elasticsearch/logs
+      - ./es/config/client:/etc/elasticsearch
+      - ./es/data:/var/lib/elasticsearch
+      - ./es/logs:/var/log/elasticsearch
     expose:
       - 9200/tcp
       - 9300/tcp

@@ -9,14 +9,20 @@ services:
     extends:
       file: elasticsearch-common.yml
       service: elasticsearch_data
+    links:
+      - esm1
   esd2:
     extends:
       file: elasticsearch-common.yml
       service: elasticsearch_data
+    links:
+      - esm1
   esd3:
     extends:
       file: elasticsearch-common.yml
       service: elasticsearch_data
+    links:
+      - esm1
   esc1:
     extends:
       file: elasticsearch-common.yml
@@ -25,8 +31,9 @@ services:
       - esd1
       - esd2
       - esd3
+      - esm1
   kb1:
-    image: joshuar/kibana:4.5.2
+    image: joshuar/kibana:4.5.4
     volumes:
       - ./kb/config:/opt/kibana/config
     links:
@@ -35,5 +42,3 @@ services:
       - 5601:5601
     environment:
       NODE_OPTIONS: --max-old-space-size=512
-    depends_on:
-      - esc1
