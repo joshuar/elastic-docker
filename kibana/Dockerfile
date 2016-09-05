@@ -8,7 +8,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
 ARG KB_VERSION
-ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-1.x86_64.rpm
+ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-x86_64.rpm
 ENV KB_USER kibana
 ENV KB_UID 900
 ENV KB_HOME /opt/kibana
@@ -25,7 +25,8 @@ RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch && \
     dnf -q -y install $KB_URL
 
 # Install plugins
-RUN $KB_HOME/bin/kibana plugin --install elasticsearch/marvel/latest && \
+RUN $KB_HOME/bin/kibana plugin --install kibana/reporting && \
+    $KB_HOME/bin/kibana plugin --install elasticsearch/marvel/latest && \
     $KB_HOME/bin/kibana plugin --install elasticsearch/graph/latest && \
     $KB_HOME/bin/kibana plugin --install elastic/sense && \
     $KB_HOME/bin/kibana plugin --install kibana/timelion && \
