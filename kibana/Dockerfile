@@ -9,10 +9,7 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - UID to use for Kibana user
 ARG KB_VERSION
 ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-x86_64.rpm
-ENV KB_USER kibana
-ENV KB_UID 900
 ENV KB_HOME /opt/kibana
-
 
 # Set up some custom labels for:
 # - Kibana version
@@ -35,12 +32,6 @@ RUN $KB_HOME/bin/kibana plugin --install kibana/reporting && \
     $KB_HOME/bin/kibana plugin --install kibi_timeline_vis -u https://github.com/sirensolutions/kibi_timeline_vis/raw/0.1.4/target/kibi_timeline_vis-0.1.4.zip && \
     $KB_HOME/bin/kibana plugin --install prelert_swimlane_vis -u https://github.com/prelert/kibana-swimlane-vis/archive/v0.1.0.tar.gz
 
-RUN old_kb_user=$(id -u kibana); \
-    usermod -u $KB_UID $KB_USER && \
-    dnf -q -y install findutils && \
-    find / -xdev -user $old_kb_user -exec chown -h $KB_USER {} + && \
-    dnf -q -y remove findutils && \
-    chown -R $KB_USER $KB_HOME/optimize
 
 # Set working directory
 VOLUME ["$KB_HOME/config"]

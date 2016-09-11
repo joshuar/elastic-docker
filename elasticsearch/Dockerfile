@@ -9,8 +9,6 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - UID to use for Elasticsearch user
 ARG ES_VERSION
 ENV ES_URL https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/rpm/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.rpm
-ENV ES_USER elasticsearch
-ENV ES_UID 900
 ENV ES_HOME /usr/share/elasticsearch
 ENV ES_CONF_DIR /etc/elasticsearch
 ENV ES_DATA_DIR /var/lib/elasticsearch
@@ -39,14 +37,9 @@ RUN $ES_HOME/bin/plugin install --batch license && \
     $ES_HOME/bin/plugin install --batch graph && \
     $ES_HOME/bin/plugin install --batch cloud-aws
 
-
-RUN old_es_user=$(id -u elasticsearch); \
-    usermod -u $ES_UID $ES_USER; \
-    find / -xdev -user $old_es_user -exec chown -h $ES_USER {} +
-
 # Performance Tweaks
-RUN echo "$ES_USER - nofile 131070" >> /etc/security/limits.conf && \
-    echo "$ES_USER - memlock unlimited" >> /etc/security/limits.conf && \
+RUN echo "elasticsearch - nofile 131070" >> /etc/security/limits.conf && \
+    echo "elasticsearch - memlock unlimited" >> /etc/security/limits.conf && \
     echo vm.max_map_count=262144 > /etc/sysctl.d/max_map_count.conf
 ENV MAX_OPEN_FILES=131070
 ENV MAX_LOCKED_MEMORY=unlimited

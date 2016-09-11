@@ -3,8 +3,7 @@ set -e
 
 if [[ "$1" = 'elasticsearch' ]]; then
     shift
-    chown -R "${ES_USER}":root "${ES_CONF_DIR}" "${ES_DATA_DIR}" "${ES_LOG_DIR}"
-    exec /usr/local/bin/gosu "${ES_USER}" \
+    exec /usr/local/bin/gosu elasticsearch \
 	 /usr/share/elasticsearch/bin/elasticsearch \
 	 -Des.pidfile="${ES_PID_DIR}/elasticsearch.pid" \
 	 -Des.default.path.home="${ES_HOME}" \
@@ -14,4 +13,4 @@ if [[ "$1" = 'elasticsearch' ]]; then
 	 "$@"
 fi
 
-exec /usr/local/bin/gosu "${ES_USER}" "$@"
+exec /usr/local/bin/gosu root "$@"
