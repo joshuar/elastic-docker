@@ -1,4 +1,4 @@
-FROM joshuar/elastic-base:latest
+FROM node
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
@@ -15,25 +15,23 @@ LABEL version=$KOPF_VERSION \
 # - UID to use for Kibana user
 ARG KOPF_VERSION
 ENV KOPF_URL https://github.com/lmenezes/elasticsearch-kopf/archive/v$KOPF_VERSION.tar.gz
-ENV KOPF_HOME /opt/kopf
 
-# Install Nginx
-RUN dnf -y install nginx
-COPY nginx-kopf.conf /etc/nginx/nginx.conf
-RUN chown nginx /etc/nginx/nginx.conf
+
+# Create a Kopf user
+RUN adduser --disabled-password --gecos "Kopf User" kopf
+
+WORKDIR /home/kopf
+
+# Install grunt
+RUN npm install -g grunt
+
+USER kopf
 
 # Install Kopf
-RUN mkdir /opt/kopf && curl -s -L $KOPF_URL | tar xz -C $KOPF_HOME --strip-components=1 && \
-    chown -R nginx $KOPF_HOME
-
-# Install entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Set working directory
-VOLUME ["/var/log/nginx"]
+RUN curl -s -L $KOPF_URL | tar xz -C /home/kopf --strip-components=1 && \
+    npm install
 
 # Set up entrypoint, forwarded ports and default command
-ENTRYPOINT [ "/entrypoint.sh" ]
-EXPOSE "8080/tcp"
-CMD [ "kopf" ]
+EXPOSE "9000/tcp"
+ENTRYPOINT [ "grunt" ]
+CMD [ "server" ]
