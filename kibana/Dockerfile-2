@@ -8,7 +8,6 @@ MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 # - User to run Kibana as inside the container
 # - UID to use for Kibana user
 ARG KB_VERSION
-ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-linux-x86_64.tar.gz
 ENV KB_HOME /opt/kibana
 ENV PATH $KB_HOME/bin:$PATH
 
@@ -21,6 +20,9 @@ LABEL version=$KB_VERSION \
 # Create an kibana user
 RUN groupadd -r -g 900 kibana && \
 	useradd -r -u 900 -d / -g kibana -s /sbin/nologin kibana
+
+# URL to download Kibana
+ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-linux-x86_64.tar.gz
 
 # Download and install Kibana
 RUN curl -s -L -o - $KB_URL | tar -C /opt -xz && \

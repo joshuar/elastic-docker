@@ -2,7 +2,6 @@ FROM joshuar/elastic-base:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
-# Environment variables
 ARG ES_VERSION
 ENV ES_HOME /opt/elasticsearch
 ENV ES_CONF_DIR /opt/elasticsearch/config
@@ -31,8 +30,8 @@ RUN dnf -q -y install java-1.8.0-openjdk-headless java-1.8.0-openjdk-devel
 RUN groupadd -r -g 900 elasticsearch && \
 	useradd -r -u 900 -d / -g elasticsearch -s /sbin/nologin elasticsearch
 
-# URL to download Elasticsearch
-ENV ES_URL https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.tar.gz
+# Set URL to download Elasticsearch
+ENV ES_URL https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz
 
 # Download and install Elasticsearch into /opt/elasticsearch
 RUN curl -s -L -o - $ES_URL | tar -C /opt -xz && \
@@ -42,12 +41,10 @@ RUN curl -s -L -o - $ES_URL | tar -C /opt -xz && \
 
 # Install the commercial plugins.  These still need a license, which can be loaded
 # after starting the container.
-RUN plugin install --batch license && \
-    plugin install --batch marvel-agent && \
-    plugin install --batch watcher && \
-    plugin install --batch shield && \
-    plugin install --batch graph && \
-    plugin install --batch cloud-aws
+RUN plugin install elasticsearch/license/latest && \
+    plugin install elasticsearch/marvel/latest && \
+    plugin install elasticsearch/shield/latest && \
+    plugin install elasticsearch/watcher/latest
 
 # Volumes to mount on host
 WORKDIR $ES_HOME
