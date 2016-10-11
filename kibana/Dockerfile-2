@@ -1,0 +1,52 @@
+FROM joshuar/elastic-base:latest
+
+MAINTAINER Joshua Rich "joshua.rich@gmail.com"
+
+# Environment variables for:
+# - Kibana version
+# - Kibana download URL
+# - User to run Kibana as inside the container
+# - UID to use for Kibana user
+ARG KB_VERSION
+ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-linux-x86_64.tar.gz
+ENV KB_HOME /opt/kibana
+ENV PATH $KB_HOME/bin:$PATH
+
+# Set up some custom labels for:
+# - Kibana version
+# - Dockerfile license
+LABEL version=$KB_VERSION \
+      license="Apache 2.0"
+
+# Create an kibana user
+RUN groupadd -r -g 900 kibana && \
+	useradd -r -u 900 -d / -g kibana -s /sbin/nologin kibana
+
+# Download and install Kibana
+RUN curl -s -L -o - $KB_URL | tar -C /opt -xz && \
+	ln -s /opt/kibana-$KB_VERSION-linux-x86_64 $KB_HOME && \
+	chown kibana:kibana $KB_HOME/optimize/.babelcache.json
+
+# Install plugins
+RUN kibana plugin --install kibana/reporting && \
+    kibana plugin --install elasticsearch/marvel/latest && \
+    kibana plugin --install elasticsearch/graph/latest && \
+    kibana plugin --install elastic/sense && \
+    kibana plugin --install kibana/timelion && \
+    kibana plugin --install kibi_wordcloud_vis -u https://github.com/sirensolutions/kibi_wordcloud_vis/raw/0.1.0/target/kibi_wordcloud_vis-0.1.0.zip && \
+    kibana plugin --install kibi_radar_vis -u  https://github.com/sirensolutions/kibi_radar_vis/archive/0.1.0.zip && \
+    kibana plugin --install kibi_timeline_vis -u https://github.com/sirensolutions/kibi_timeline_vis/raw/0.1.4/target/kibi_timeline_vis-0.1.4.zip && \
+    kibana plugin --install prelert_swimlane_vis -u https://github.com/prelert/kibana-swimlane-vis/archive/v0.1.0.tar.gz
+    # kibana plugin --install facechimp --url https://s3-eu-west-1.amazonaws.com/facechimp/facechimp-0.1.3.tar.gz
+
+# Set working directory
+WORKDIR $KB_HOME
+
+# Install entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Set up entrypoint, forwarded ports and default command
+ENTRYPOINT [ "/entrypoint.sh" ]
+EXPOSE "5601/tcp"
+CMD [ "kibana" ]
