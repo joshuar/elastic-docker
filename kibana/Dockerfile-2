@@ -27,7 +27,7 @@ ENV KB_URL https://download.elastic.co/kibana/kibana/kibana-$KB_VERSION-linux-x8
 # Download and install Kibana
 RUN curl -s -L -o - $KB_URL | tar -C /opt -xz && \
 	ln -s /opt/kibana-$KB_VERSION-linux-x86_64 $KB_HOME && \
-	chown kibana:kibana $KB_HOME/optimize/.babelcache.json
+	chown kibana:kibana $KB_HOME/optimize/.babelcache.json $KB_HOME/data
 
 # Install plugins
 RUN kibana plugin --install kibana/reporting && \
