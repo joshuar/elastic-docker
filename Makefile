@@ -11,7 +11,8 @@ all: base elastic
 elastic: base elasticsearch-2 kibana-4
 
 base:
-	cd base && docker build --rm --build-arg GOSU_VERSION=$(GOSU_VERSION) -t joshuar/elastic-base:latest .
+	docker build --rm --build-arg GOSU_VERSION=$(GOSU_VERSION) -t joshuar/gosu:latest -f base/gosu/Dockerfile base/gosu
+	docker build --rm -t joshuar/java:latest -f base/java/Dockerfile base/java
 
 elasticsearch: elasticsearch-2
 

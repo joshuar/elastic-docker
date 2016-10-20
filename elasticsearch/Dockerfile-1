@@ -1,4 +1,4 @@
-FROM joshuar/elastic-base:latest
+FROM joshuar/java:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
@@ -22,9 +22,6 @@ ENV MAX_MAP_COUNT=262144
 # - Dockerfile license
 LABEL version=$ES_VERSION \
       license="Apache 2.0"
-
-# Install Java
-RUN dnf -q -y install java-1.8.0-openjdk-headless java-1.8.0-openjdk-devel
 
 # Create an elasticsearch user
 RUN groupadd -r -g 900 elasticsearch && \

@@ -1,4 +1,4 @@
-FROM joshuar/elastic-base:latest
+FROM joshuar/gosu:latest
 
 MAINTAINER Joshua Rich "joshua.rich@gmail.com"
 
