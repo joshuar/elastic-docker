@@ -30,14 +30,15 @@ RUN curl -s -L -o - $KB_URL | tar -C /opt -xz && \
 	chown kibana:kibana $KB_HOME/optimize/.babelcache.json $KB_HOME/data
 
 # Install plugins
-RUN kibana plugin --install kibana/reporting && \
+RUN kibana plugin --install kibana/shield && \
+	kibana plugin --install kibana/reporting && \
     kibana plugin --install elasticsearch/marvel/latest && \
     kibana plugin --install elasticsearch/graph/latest && \
     kibana plugin --install elastic/sense && \
     kibana plugin --install kibana/timelion && \
-    kibana plugin --install kibi_wordcloud_vis -u https://github.com/sirensolutions/kibi_wordcloud_vis/raw/0.1.0/target/kibi_wordcloud_vis-0.1.0.zip && \
-    kibana plugin --install kibi_radar_vis -u  https://github.com/sirensolutions/kibi_radar_vis/archive/0.1.0.zip && \
-    kibana plugin --install kibi_timeline_vis -u https://github.com/sirensolutions/kibi_timeline_vis/raw/0.1.4/target/kibi_timeline_vis-0.1.4.zip && \
+	kibana plugin -i kibi_wordcloud_vis -u https://github.com/sirensolutions/kibi_wordcloud_vis/raw/4.5.3/target/kibi_wordcloud_vis-4.5.3.zip && \
+	kibana plugin -i kibi_radar_vis -u  https://github.com/sirensolutions/kibi_radar_vis/archive/4.5.3.zip && \
+    kibana plugin --install kibi_timeline_vis -u https://github.com/sirensolutions/kibi_timeline_vis/raw/4.5.3/target/kibi_timeline_vis-4.5.3.zip && \
     kibana plugin --install prelert_swimlane_vis -u https://github.com/prelert/kibana-swimlane-vis/archive/v0.1.0.tar.gz
     # kibana plugin --install facechimp --url https://s3-eu-west-1.amazonaws.com/facechimp/facechimp-0.1.3.tar.gz
 

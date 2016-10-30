@@ -44,7 +44,8 @@ RUN plugin install --batch license && \
     plugin install --batch watcher && \
     plugin install --batch shield && \
     plugin install --batch graph && \
-    plugin install --batch cloud-aws
+    plugin install --batch cloud-aws && \
+    plugin install --batch https://github.com/elastic/elasticsearch-migration/releases/download/v2.0.1/elasticsearch-migration-2.0.1.zip
 
 # Volumes to mount on host
 WORKDIR $ES_HOME
