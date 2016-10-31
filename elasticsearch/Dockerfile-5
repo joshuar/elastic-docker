@@ -1,0 +1,56 @@
+FROM joshuar/java:latest
+
+MAINTAINER Joshua Rich "joshua.rich@gmail.com"
+
+# Environment variables
+ARG ES_VERSION
+ENV ES_HOME /opt/elasticsearch
+ENV ES_CONF_DIR /opt/elasticsearch/config
+ENV ES_DATA_DIR /opt/elasticsearch/data
+ENV ES_LOG_DIR /opt/elasticsearch/logs
+ENV PATH $ES_HOME/bin:$PATH
+
+# Performance Tweaks
+RUN echo "elasticsearch - nofile 131070" >> /etc/security/limits.conf && \
+    echo "elasticsearch - memlock unlimited" >> /etc/security/limits.conf && \
+    echo vm.max_map_count=262144 > /etc/sysctl.d/max_map_count.conf
+ENV MAX_OPEN_FILES=131070
+ENV MAX_LOCKED_MEMORY=unlimited
+ENV MAX_MAP_COUNT=262144
+
+# Set up some custom labels for:
+# - Elasticsearch version
+# - Dockerfile license
+LABEL version=$ES_VERSION \
+      license="Apache 2.0"
+
+# Create an elasticsearch user
+RUN groupadd -r -g 900 elasticsearch && \
+	useradd -r -u 900 -d / -g elasticsearch -s /sbin/nologin elasticsearch
+
+# URL to download Elasticsearch
+ENV ES_URL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ES_VERSION.tar.gz
+
+# Download and install Elasticsearch into /opt/elasticsearch
+RUN curl -s -L -o - $ES_URL | tar -C /opt -xz && \
+	ln -s /opt/elasticsearch-$ES_VERSION $ES_HOME && \
+	mkdir $ES_HOME/data $ES_HOME/logs $ES_HOME/config/scripts && \
+	chown -R elasticsearch:elasticsearch $ES_HOME/data $ES_HOME/logs
+
+# Install the commercial plugins.  These still need a license, which can be loaded
+# after starting the container.
+RUN elasticsearch-plugin install --batch x-pack && \
+    elasticsearch-plugin install --batch repository-s3
+
+# Volumes to mount on host
+WORKDIR $ES_HOME
+
+# Install entrypoint script
+COPY entrypoint5.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+# Set up entrypoint, forwarded ports and default command
+ENTRYPOINT ["/entrypoint.sh"]
+EXPOSE "9200/tcp" "9300/tcp"
+CMD ["elasticsearch"]

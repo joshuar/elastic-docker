@@ -1,3 +1,5 @@
+ES_5=5.0.0
+KB_5=5.0.0
 ES_2=2.4.1
 KB_2=4.6.1
 ES_1=1.7.5
@@ -17,7 +19,7 @@ base:
 elasticsearch: elasticsearch-2
 
 elasticsearch-5: base
-	cd elasticsearch && docker build --rm --build-arg ES_VERSION=$(ES_VERSION) -t joshuar/elasticsearch:$(ES_VERSION) -f Dockerfile-5
+	cd elasticsearch && docker build --rm --build-arg ES_VERSION=$(ES_5) -t joshuar/elasticsearch:$(ES_5) -f Dockerfile-5 .
 
 elasticsearch-2: base
 	cd elasticsearch && docker build --rm --build-arg ES_VERSION=$(ES_2) -f Dockerfile-2 -t joshuar/elasticsearch:$(ES_2) .
@@ -28,7 +30,7 @@ elasticsearch-1: base
 kibana: kibana-2
 
 kibana-5: base
-	cd kibana && docker build --rm --build-arg KB_VERSION=$(KB_VERSION) -t joshuar/kibana:$(KB_VERSION) -f Dockerfile-5
+	cd kibana && docker build --rm --build-arg KB_VERSION=$(KB_5) -t joshuar/kibana:$(KB_5) -f Dockerfile-5 .
 
 kibana-2: base
 	cd kibana && docker build --rm --build-arg KB_VERSION=$(KB_2) -f Dockerfile-2 -t joshuar/kibana:$(KB_2) .
