@@ -21,6 +21,8 @@ LABEL version=$KB_VERSION \
 RUN groupadd -r -g 900 kibana && \
 	useradd -r -u 900 -d / -g kibana -s /sbin/nologin kibana
 
+RUN dnf -y install libstdc++
+
 # URL to download Kibana
 ENV KB_URL https://artifacts.elastic.co/downloads/kibana/kibana-$KB_VERSION-linux-x86_64.tar.gz
 
