@@ -39,8 +39,7 @@ RUN curl -s -L -o - $ES_URL | tar -C /opt -xz && \
 
 # Install the commercial plugins.  These still need a license, which can be loaded
 # after starting the container.
-RUN elasticsearch-plugin install --batch x-pack && \
-    elasticsearch-plugin install --batch repository-s3
+RUN elasticsearch-plugin install --batch x-pack
 
 # Volumes to mount on host
 WORKDIR $ES_HOME
