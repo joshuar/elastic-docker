@@ -34,12 +34,13 @@ ENV ES_URL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$E
 # Download and install Elasticsearch into /opt/elasticsearch
 RUN curl -s -L -o - $ES_URL | tar -C /opt -xz && \
 	ln -s /opt/elasticsearch-$ES_VERSION $ES_HOME && \
-	mkdir $ES_HOME/data $ES_HOME/logs $ES_HOME/config/scripts && \
-	chown -R elasticsearch:elasticsearch $ES_HOME/data $ES_HOME/logs
+	mkdir $ES_DATA_DIR $ES_LOG_DIR && \
+	chown -R elasticsearch:elasticsearch $ES_DATA_DIR $ES_LOG_DIR
 
 # Install the commercial plugins.  These still need a license, which can be loaded
 # after starting the container.
-RUN elasticsearch-plugin install --batch x-pack
+RUN elasticsearch-plugin install --batch x-pack && \
+	chown -R elasticsearch:elasticsearch $ES_CONF_DIR
 
 # Volumes to mount on host
 WORKDIR $ES_HOME
