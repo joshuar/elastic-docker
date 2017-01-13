@@ -37,6 +37,10 @@ RUN curl -s -L -o - $ES_URL | tar -C /opt -xz && \
 	mkdir $ES_DATA_DIR $ES_LOG_DIR && \
 	chown -R elasticsearch:elasticsearch $ES_DATA_DIR $ES_LOG_DIR
 
+# Copy custom log4j configs to log everything to console
+COPY log4j2.properties $ES_CONF_DIR/log4j2.properties
+COPY x-pack.log4j2.properties $ES_CONF_DIR/x-pack/log4j2.properties
+
 # Install the commercial plugins.  These still need a license, which can be loaded
 # after starting the container.
 RUN elasticsearch-plugin install --batch x-pack && \
